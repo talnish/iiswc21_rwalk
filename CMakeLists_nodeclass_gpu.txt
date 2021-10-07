@@ -1,0 +1,47 @@
+set(CMAKE_THREAD_LIBS_INIT "-lpthread")
+set(CMAKE_HAVE_THREADS_LIBRARY 1)
+set(CMAKE_USE_WIN32_THREADS_INIT 0)
+set(CMAKE_USE_PTHREADS_INIT 1)
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+cmake_minimum_required(VERSION 3.16)
+
+project(link-prediction LANGUAGES CXX CUDA)
+
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+if(NOT Torch_FOUND)
+    list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../cmake")
+    find_package(Torch REQUIRED PATHS "${CMAKE_CURRENT_SOURCE_DIR}/../../../libtorch")
+endif()
+
+find_package(OpenMP)
+
+set(EXECUTABLE_NAME node-classification)
+FILE(GLOB_RECURSE SRC   src_gpu/nodeclass.cc)
+
+add_definitions(-DOPENMP)
+
+set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-O3 -gencode arch=compute_80,code=sm_80;--std=c++11)
+
+#compile cuda files and add the compiled object files to normal source files
+FILE(GLOB_RECURSE CUDA_SRC  src_gpu/*.cu)
+cuda_compile(cuda_objs ${CUDA_SRC})
+SET(SRC ${SRC} ${cuda_objs})
+    
+add_executable(${EXECUTABLE_NAME} ${SRC})
+
+target_compile_options(${EXECUTABLE_NAME} PUBLIC -O3 -Wall -funroll-loops -Wno-unused-result -fcilkplus -pthread)
+
+set_property(TARGET ${EXECUTABLE_NAME} 
+             PROPERTY CUDA_SEPARABLE_COMPILATION ON)
+
+set(LIBS m)
+list(APPEND LIBS "${TORCH_LIBRARIES}")
+list(APPEND BLAS)
+
+if(OpenMP_CXX_FOUND)
+    list(APPEND LIBS OpenMP::OpenMP_CXX)
+endif()
+
+target_link_libraries(${EXECUTABLE_NAME} PUBLIC ${LIBS})

@@ -1,0 +1,30 @@
+cmake_minimum_required(VERSION 3.16)
+
+project(link-prediction)
+
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+if(NOT Torch_FOUND)
+    list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../../cmake")
+    find_package(Torch REQUIRED PATHS "${CMAKE_CURRENT_SOURCE_DIR}/../../../libtorch")
+endif()
+
+find_package(OpenMP)
+
+set(EXECUTABLE_NAME node-classification)
+add_executable(${EXECUTABLE_NAME})
+target_sources(${EXECUTABLE_NAME} PRIVATE src_cpu/nodeclass.cc)
+
+add_definitions(-DOPENMP)
+target_compile_options(${EXECUTABLE_NAME} PUBLIC -O3 -Wall -funroll-loops -Wno-unused-result -fcilkplus -pthread)
+set(LIBS m)
+# list(APPEND LIBS cilkrts)
+list(APPEND LIBS "${TORCH_LIBRARIES}")
+list(APPEND BLAS)
+
+if(OpenMP_CXX_FOUND)
+    list(APPEND LIBS OpenMP::OpenMP_CXX)
+endif()
+
+target_link_libraries(${EXECUTABLE_NAME} PUBLIC ${LIBS})

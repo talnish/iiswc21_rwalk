@@ -1,0 +1,41 @@
+## Configure parameters for running GNN
+
+# Use '#' for a comment
+
+# Supported parameters:
+#   use_max_num_threads
+#   num_threads
+#   num_walks_per_node
+#   walk_length
+#   node_embedding_dim
+#   workers
+#   training_ratio
+#   output_dim
+#   learning_rate
+#   num_epochs
+#   hidden_layer_dim
+#   hidden_layer1_dim
+#   hidden_layer2_dim
+#   batch_size
+
+# Use max # of threads (1), user-defined # threads (0)
+# Use num_threads to define # threads and set use_max_num_threads to 0
+# If use_max_num_threads is 1 then num_threads will be ignored
+
+use_max_num_threads 0
+num_threads 64 
+
+num_walks_per_node 10
+walk_length 5
+
+node_embedding_dim 8
+
+# num_workers for data loader
+num_workers 4
+training_ratio 0.8
+output_dim 1
+learning_rate 0.05
+num_epochs 20
+hidden_layer_dim 128
+batch_size 1024
+target_validation_accuracy 1

@@ -11,7 +11,8 @@ If you find this repo useful, please cite the following paper:
                Di Jin and
                Haojie Ye and
                Ajay Brahmakshatriya and
-               Saman Amarasinghe$ and
+               Ganesh Dasika and
+               Saman Amarasinghe and
                Trevor Mudge and
                Danai Koutra and
                Ronald Dreslinski},

@@ -1,6 +1,6 @@
 (c) 2020 The Regents of the University of Michigan <CADRE Group, GEMS Lab> https://cadre.eecs.umich.edu, https://gemslab.github.io 
 (c) 2020 The Regents of Massachusetts Institute of Technology <Commit compiler research group> http://groups.csail.mit.edu/commit/
-Authors: Nishil Talati, Di Jin, Haojie Ye, Ajay Brahmakshatriya, Ganesh Dasika, Saman Amarasinghe, Trevor Mudge, Danai Koutra, and Ronald Dreslinski
+Authors: Nishil Talati, Di Jin, Haojie Ye, Ajay Brahmakshatriya, Saman Amarasinghe, Trevor Mudge, Danai Koutra, and Ronald Dreslinski
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
 Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
